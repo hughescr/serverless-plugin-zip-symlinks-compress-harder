@@ -6,14 +6,14 @@ const spawnSync = require('child_process').spawnSync;
 
 class ZipSymlinksHarder {
   constructor(serverless, options) {
-    this.serverless = serverless
-    this.package = serverless.service.package
+    this.serverless = serverless;
+    this.package = serverless.service.package;
 
-    this.zipFileName = path.join(serverless.config.servicePath, serverless.service.package.artifact)
+    this.zipFileName = path.join(serverless.config.servicePath, serverless.service.package.artifact);
 
-    let excludes = this.package.exclude || []
-    this.patterns = this.package.include || ['**']
-    excludes.forEach((pattern) => this.patterns.push(`!${pattern}`))
+    let excludes = this.package.exclude || [];
+    this.patterns = this.package.include || ['**'];
+    excludes.forEach((pattern) => this.patterns.push(`!${pattern}`));
 
     this.hooks = {
       'before:deploy:createDeploymentArtifacts': this.createArtifact.bind(this),
@@ -24,18 +24,22 @@ class ZipSymlinksHarder {
 
     let glob;
     try {
-        glob = require(path.join(this.serverless.config.serverlessPath,'..','node_modules','glob-all')) // Use glob-all that serverless includes
+        glob = require(path.join(this.serverless.config.serverlessPath,'..','node_modules','glob-all')); // Use glob-all that serverless includes
     } catch (e) {
-        glob = require(path.join(this.serverless.config.serverlessPath,'..','node_modules','globby')) // Use globby that serverless includes
+        try {
+            glob = require(path.join(this.serverless.config.serverlessPath,'..','node_modules','globby')); // Use globby that serverless includes
+        } catch (e2) {
+            glob = require('globby'); // Fall back to finding globby in the normal search path
+        }
     }
 
-    const files = glob.sync(this.patterns)
+    const files = glob.sync(this.patterns);
 
-    this.serverless.cli.log(`Will write ${files.length} files to ${this.zipFileName}`)
+    this.serverless.cli.log(`Will write ${files.length} files to ${this.zipFileName}`);
 
-    const arg = files
-    arg.unshift(this.zipFileName)   // Prepend zipfile name
-    arg.unshift('-9yFS')            // Prepend high compression with symlink preservation and deleting old files
+    const arg = files;
+    arg.unshift(this.zipFileName);   // Prepend zipfile name
+    arg.unshift('-9yFS');            // Prepend high compression with symlink preservation and deleting old files
     const zipResults = spawnSync('/usr/bin/zip', arg, { cwd: this.path, encoding: 'utf8' });
     if(zipResults.status != 0) {
         this.serverless.cli.log('Error while running "zip":');
