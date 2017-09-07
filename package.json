@@ -7,5 +7,8 @@
   "license": "BSD-3-Clause-Clear",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "globby": "^6.1.0"
   }
 }

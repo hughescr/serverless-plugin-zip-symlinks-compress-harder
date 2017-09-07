@@ -9,4 +9,23 @@ This plugin for serverless will improve artifact creation.  It uses some custom 
 
  - `yarn add serverless-plugin-zip-symlinks-compress-harder --dev` or
   `npm install --save-dev serverless-plugin-zip-symlinks-compress-harder`
- - Add `zip-symlinks-compress-harder` to the `plugins` section of your `serverless.yml`
+ - Add `serverless-plugin-zip-symlinks-compress-harder` to the `plugins` section of your `serverless.yml`
+ - Add `artifact: something.zip` to the `package` section of your `serverless.yml`
+
+eg:
+
+```
+...
+package:
+  exclude:
+    - somefile.json
+    - tests/**
+    - package.json
+    - serverless.yml
+
+  artifact: my-lambda.zip
+
+plugins:
+  - serverless-plugin-zip-symlinks-compress-harder
+...
+```
