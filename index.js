@@ -21,7 +21,7 @@ class ZipSymlinksHarder {
     excludes.forEach((pattern) => this.patterns.push(`!${pattern}`));
 
     this.patterns.push('!node_modules/**');
-    const prodDependencies = execSync("yarn list --depth=0 --flat --prod --silent| cut -d' ' -f 2|cut -d'@' -f1", { encoding: 'utf8' })
+    const prodDependencies = execSync("yarn list --flat --prod | head -n -1 | tail -n +2 | cut -d' ' -f 2|cut -d'@' -f1", { encoding: 'utf8' })
                                 .split('\n')
                                 .filter((p) => !!p.trim()) // Remove any blank lines
                                 .map((p) => `node_modules/${p}/**`) // Convert to relative paths
