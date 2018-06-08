@@ -9,6 +9,6 @@
     "access": "public"
   },
   "dependencies": {
-    "globby": "^6.1.0"
+    "globby": "^8.0.1"
   }
 }
