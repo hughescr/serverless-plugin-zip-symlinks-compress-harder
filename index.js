@@ -9,6 +9,14 @@ const execSync = require('child_process').execSync;
 class ZipSymlinksHarder {
   constructor(serverless, options) {
     this.serverless = serverless;
+
+    this.hooks = {
+      'before:deploy:createDeploymentArtifacts': this.createArtifact.bind(this),
+    };
+  }
+
+  createArtifact() {
+    const serverless = this.serverless
     this.package = serverless.service.package;
 
     this.zipFileName = path.join(serverless.config.servicePath, serverless.service.package.artifact);
@@ -28,13 +36,6 @@ class ZipSymlinksHarder {
                                 .filter((p) => p.indexOf('node_modules') === 0); // Only include things in node_modules
 
     prodDependencies.forEach((pattern) => this.patterns.push(`${pattern}`));
-
-    this.hooks = {
-      'before:deploy:createDeploymentArtifacts': this.createArtifact.bind(this),
-    };
-  }
-
-  createArtifact() {
     const files = glob.sync(this.patterns);
 
     this.serverless.cli.log(`Will write ${files.length} files to ${this.zipFileName}`);
