@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-zip-symlinks-compress-harder",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "A serverless plugin which will pack zip artifacts using \"-9yFS\" for better compression, removing old files, preserving symlinks",
   "main": "index.js",
   "author": "Craig R. Hughes <craig.git@rungie.com>",
@@ -9,6 +9,6 @@
     "access": "public"
   },
   "dependencies": {
-    "globby": "^8.0.1"
+    "globby": "^11.0.0"
   }
 }
