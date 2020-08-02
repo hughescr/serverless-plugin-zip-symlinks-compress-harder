@@ -7,7 +7,7 @@ const spawnSync = require('child_process').spawnSync;
 const execSync = require('child_process').execSync;
 
 class ZipSymlinksHarder {
-  constructor(serverless, options) {
+  constructor(serverless) {
     this.serverless = serverless;
 
     this.hooks = {
@@ -16,12 +16,12 @@ class ZipSymlinksHarder {
   }
 
   createArtifact() {
-    const serverless = this.serverless
+    const serverless = this.serverless;
     this.package = serverless.service.package;
 
     this.zipFileName = path.join(serverless.config.servicePath, serverless.service.package.artifact);
 
-    let excludes = this.package.exclude || [];
+    const excludes = this.package.exclude || [];
     this.patterns = this.package.include || ['**'];
 
     this.patterns.push(`!${this.zipFileName}`);
@@ -43,7 +43,7 @@ class ZipSymlinksHarder {
     const arg = ['-9yFS@', this.zipFileName];
     const zipResults = spawnSync('/usr/bin/zip', arg, { cwd: this.path, encoding: 'utf8', input: files.join('\n') });
     if(zipResults.status != 0) {
-        this.serverless.cli.log(`Error while running "zip":`);
+        this.serverless.cli.log('Error while running "zip":');
         this.serverless.cli.log(util.inspect(zipResults));
         return;
     }
