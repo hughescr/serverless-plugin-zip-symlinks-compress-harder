@@ -16,10 +16,10 @@
     "access": "public"
   },
   "dependencies": {
-    "globby": "^11.0.1"
+    "globby": "^11.0.3"
   },
   "devDependencies": {
-    "@hughescr/eslint-config-default": "^2.5.0",
-    "eslint": "^7.6.0"
+    "@hughescr/eslint-config-default": "^2.8.7",
+    "eslint": "^7.27.0"
   }
 }
