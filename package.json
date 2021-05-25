@@ -1,6 +1,6 @@
 {
   "name": "serverless-plugin-zip-symlinks-compress-harder",
-  "version": "0.10.3",
+  "version": "0.11.1",
   "description": "A serverless plugin which will pack zip artifacts using \"-9yFS\" for better compression, removing old files, preserving symlinks",
   "engines": {
     "node": ">=10.x"
@@ -16,10 +16,10 @@
     "access": "public"
   },
   "dependencies": {
-    "globby": "^11.0.1"
+    "globby": "^11.0.3"
   },
   "devDependencies": {
-    "@hughescr/eslint-config-default": "^2.5.0",
-    "eslint": "^7.6.0"
+    "@hughescr/eslint-config-default": "^2.8.7",
+    "eslint": "^7.27.0"
   }
 }
